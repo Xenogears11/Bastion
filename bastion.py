@@ -6,9 +6,26 @@ from datetime import datetime
 from discord.enums import Status
 
 bot = commands.Bot(command_prefix = commands.when_mentioned_or('!'), description = 'Bastion')
-answer = ('DO IT!', 'Nope', 'I don\'t think so :\\', 'It sucks.', 'Dunno :C',)
-response = ('Doo-woo.', 'Boo boo doo de doo.', 'Dweet! Dweet! Dweet!',
-            'Hee hoo hoo hoo-wee, hee hee hoo hoo hoo-wee.', 'Zwee?')
+
+#read answers
+answers = []
+with open('answers.txt', 'r', encoding = 'utf-8') as file:
+    for line in file:
+        answers.append(line)
+
+#read responses
+responses = []
+with open('responses.txt', 'r', encoding = 'utf-8') as file:
+    for line in file:
+        responses.append(line)
+
+#read help
+with open('help.txt', 'r', encoding = 'utf-8') as file:
+    help_message = file.read()
+
+#read token
+with open('token.txt', 'r', encoding = 'utf-8') as file:
+    token = file.read()
 
 modes = {'hide' : True,     #отвечает только в black_forest
          'defense' : False, #посылает всех, кроме меня
@@ -17,57 +34,23 @@ modes = {'hide' : True,     #отвечает только в black_forest
          'users_log' : True,#лог пользователей в канале log
          'spam' : False} #ухади
 
-help_message = '''commands are:
-
-**help**
-Show help (lel).
-
-**@Bastion**
-Bastion simply replies to you.
-
-**@Bastion <sample_text> ?**
-Ask Bastion is it worth doing, or not.
-
-**channel**
-Get channel name.
-
-**my_id**
-Get your ID.
-
-**tts <sample_text>**
-Send text-to-speech message.
-
-**set_game <sample_text>**
-Set 'Playing...' status.
-
-**hide**
-Hide Bastion in the black_forest.
-
-**defense**
-Set Bastion to defense mode (he will reply only to his owner).
-
-**mode**
-Get info on Bastion\'s modes (hide/defense).
-
-**bot_kill**
-Kills Bastion (plz don't do this, he's the last one remaining :C).'''
-
-#read token
-with open('token.txt', 'r', encoding = 'utf-8') as file:
-    token = file.read()
-
-def log(*message):
+def log(*message, print_time = True):
     '''Prints log record'''
-    print(datetime.now().strftime('%d-%m-%Y %H:%M:%S'))
+    if print_time:
+        print(datetime.now().strftime('%d-%m-%Y %H:%M:%S'))
     for msg in message:
         print(msg, end=' ')
     print('\n------')
 
+#on login
 @bot.event
 async def on_ready():
     await bot.send_message(bot.get_channel('321752343009951755'), 'I\'m alive! BOOP!')
     if modes['log']:
         log('Logged in as:\n', bot.user.name, '\n', bot.user.id)
+    if modes['users_log']:
+        msg = datetime.now().strftime('%d-%m-%Y %H:%M:%S') + ' {0.name} logged in.'.format(bot.user)
+        await bot.send_message(bot.get_channel('322963563431854080'), msg)
 
     #await client.change_presence(game=discord.Game(name='game'))
 
@@ -95,8 +78,18 @@ async def on_message(message):
 
         return
 
+#Bastion .. ?
+    elif bot.user.mentioned_in(message) and message.content.endswith('?'):
+        msg = '{0.author.mention}, '.format(message)
+        msg += random.choice(answers)
+        await bot.send_message(message.channel, msg)
+        if modes['log']:
+            log('Answered to', message.author.name)
+
+        return
+
 #override !help
-    elif message.content.startswith('!help'):
+    elif message.content.startswith('!help') or ( message.content.startswith('<@321783873853980672>') and 'help' in message.content ):
         msg = '{0.author.mention}, '.format(message)
         msg += help_message
         await bot.send_message(message.channel, msg)
@@ -105,26 +98,16 @@ async def on_message(message):
 
         return
 
-#Bastion!
+#Bastion
     #elif message.content.startswith('Bastion!'):
     elif message.content == '<@321783873853980672>':
         msg = '{0.author.mention}, '.format(message)
-        msg += random.choice(response)
+        msg += random.choice(responses)
         await bot.send_message(message.channel, msg)
         if modes['log']:
             log('Responded to', message.author.name)
 
-        return
-
-#Bastion .. ?
-    elif bot.user.mentioned_in(message) and message.content.endswith('?'):
-        msg = '{0.author.mention}, '.format(message)
-        msg += random.choice(answer)
-        await bot.send_message(message.channel, msg)
-        if modes['log']:
-            log('Answered to', message.author.name)
-
-        return
+        return    
 
     else:
         await bot.process_commands(message) #Run standart command meth
@@ -137,6 +120,9 @@ async def on_message(message):
 @bot.command(description = 'Shutdown', pass_context = 'True')
 async def bot_kill(ctx):
     await bot.reply('BOOoooop.. :C')
+    if modes['users_log']:
+        msg = datetime.now().strftime('%d-%m-%Y %H:%M:%S') + ' {0.name} logged out.'.format(bot.user)
+        await bot.send_message(bot.get_channel('322963563431854080'), msg)
     await bot.close()
     if modes['log']:
         log('Shutdown by', ctx.message.author.name)
@@ -146,8 +132,6 @@ async def bot_kill(ctx):
 #channel
 @bot.command(description = 'Channel name/id', pass_context = 'True')
 async def channel(ctx):
-    #msg = '{0.author.mention}, '.format()
-    #msg += message.channel.name
     await bot.reply(ctx.message.channel.name + '\n' + ctx.message.channel.id)
     if modes['log']:
         log('!channel by', ctx.message.author.name)
@@ -311,14 +295,16 @@ async def wrong_game(before, after):
 #Members log
 @bot.listen('on_member_update')
 async def members_log(before, after):
-    if not modes['users_log']:
-        return
-
     if before.status == Status.offline and after.status == Status.online:
         msg = datetime.now().strftime('%d-%m-%Y %H:%M:%S') + ' {0.name} logged in.'.format(after)
-        await bot.send_message(bot.get_channel('322963563431854080'), msg)
     elif before.status == Status.online and after.status == Status.offline:
         msg = datetime.now().strftime('%d-%m-%Y %H:%M:%S') + ' {0.name} logged out.'.format(after)
+
+    if modes['log']:
+        log(msg, print_time = False)
+
+    if modes['users_log']:
         await bot.send_message(bot.get_channel('322963563431854080'), msg)
 
+#run bot
 bot.run(token)
