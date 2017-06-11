@@ -107,7 +107,7 @@ async def on_message(message):
         if modes['log']:
             log('Responded to', message.author.name)
 
-        return    
+        return
 
     else:
         await bot.process_commands(message) #Run standart command meth
@@ -266,6 +266,14 @@ async def spam(ctx, msg = 'SPAM'):
     while modes['spam']:
         await bot.say(msg)
 
+#clear_log
+@bot.command(description = 'Clear \'log\' channel', pass_context = 'True')
+async def clear_log(ctx):
+    await bot.purge_from(bot.get_channel('322963563431854080'))
+    await bot.reply("log exterminated! >:3")
+    if modes['log']:
+        log(ctx.message.author.name, "cleared log")
+
 ###########
 #Listeners#
 ###########
@@ -286,7 +294,7 @@ async def greet(before, after):
 async def wrong_game(before, after):
     if after.game == None:
         return
-    
+
     if after.game.name == 'League of Legends' or after.game.name == 'DOTA 2':
         await bot.send_message(bot.get_channel('320955467700502528'), '{0.mention}, '.format(after) + 'сейчас бы в 2к17 в жопу подолбиться :\\')
         if modes['log']:
