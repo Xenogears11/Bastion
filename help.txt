@@ -1,16 +1,17 @@
-commands are:
+you can use !<command> or @Bastion <command> (mention Bastion)
+Commands are:
 
 **help**
 Show help (lel).
 
-**@Bastion**
+**@Bastion** (doesn't work with ! prefix)
 Bastion simply replies to you.
 
-**@Bastion <sample_text> ?**
+**@Bastion <sample_text> ?** (doesn't work with ! prefix)
 Ask Bastion is it worth doing, or not.
 
 **channel**
-Get channel name.
+Get channel ID and name.
 
 **my_id**
 Get your ID.
@@ -27,8 +28,17 @@ Hide Bastion in the black_forest.
 **defense**
 Set Bastion to defense mode (he will reply only to his owner).
 
+**greet**
+Bastion will greet everyone, who log in.
+
+**log**
+Log of users log in/out.
+
+**spam <sample_text>**
+Spam your message. Enter this command again to stop.
+
 **mode**
-Get info on Bastion\'s modes (hide/defense).
+Get info on Bastion\'s modes.
 
 **bot_kill**
 Kills Bastion (plz don't do this, he's the last one remaining :C).
