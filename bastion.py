@@ -16,41 +16,9 @@ modes = {'hide' : True,     #отвечает только в black_forest
          'greet': True,     #приветствует всех прибывших
          'users_log' : True,#лог пользователей в канале log
          'spam' : False} #ухади
-
-help_message = '''commands are:
-
-**help**
-Show help (lel).
-
-**@Bastion**
-Bastion simply replies to you.
-
-**@Bastion <sample_text> ?**
-Ask Bastion is it worth doing, or not.
-
-**channel**
-Get channel name.
-
-**my_id**
-Get your ID.
-
-**tts <sample_text>**
-Send text-to-speech message.
-
-**set_game <sample_text>**
-Set 'Playing...' status.
-
-**hide**
-Hide Bastion in the black_forest.
-
-**defense**
-Set Bastion to defense mode (he will reply only to his owner).
-
-**mode**
-Get info on Bastion\'s modes (hide/defense).
-
-**bot_kill**
-Kills Bastion (plz don't do this, he's the last one remaining :C).'''
+#read help
+with open('help.txt', 'r', encoding = 'utf-8') as file:
+    help_message = file.read()
 
 #read token
 with open('token.txt', 'r', encoding = 'utf-8') as file:
