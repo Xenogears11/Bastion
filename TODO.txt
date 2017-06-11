@@ -1,5 +1,4 @@
 #TODO:
 #написать readme
-#purge log
 #???
 #PROFIT

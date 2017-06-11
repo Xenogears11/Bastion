@@ -34,6 +34,9 @@ Bastion will greet everyone, who log in.
 **log**
 Log of users log in/out.
 
+**clear_log**
+Clears 'log' channel.
+
 **spam <sample_text>**
 Spam your message. Enter this command again to stop.
 
