@@ -10,6 +10,9 @@ Bastion simply replies to you.
 **@Bastion <sample_text> ?** (doesn't work with ! prefix)
 Ask Bastion is it worth doing, or not.
 
+**remind_me <time> <sample text>**
+Reminder in set time. (example: !remind_me 5 mins message)
+
 **channel**
 Get channel ID and name.
 
