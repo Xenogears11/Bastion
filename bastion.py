@@ -4,6 +4,14 @@ from discord.enums import Status
 import asyncio
 import random
 from datetime import datetime
+import logging
+
+#logging.basicConfig(level = logging.DEBUG)
+logger = logging.getLogger('discord')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
 
 bot = commands.Bot(command_prefix = commands.when_mentioned_or('!'), description = 'Bastion')
 
