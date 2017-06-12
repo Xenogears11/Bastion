@@ -1,4 +1,6 @@
 #TODO:
-#написать readme
+#config file?
+#log to files
+#remind_me to pm
 #???
 #PROFIT
