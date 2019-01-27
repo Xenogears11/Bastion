@@ -17,23 +17,25 @@ bot = commands.Bot(command_prefix = commands.when_mentioned_or('!'), description
 
 #read answers
 answers = []
-with open('answers.txt', 'r', encoding = 'utf-8') as file:
+with open('config/answers.txt', 'r', encoding = 'utf-8') as file:
     for line in file:
         answers.append(line)
 
 #read responses
 responses = []
-with open('responses.txt', 'r', encoding = 'utf-8') as file:
+with open('config/responses.txt', 'r', encoding = 'utf-8') as file:
     for line in file:
         responses.append(line)
 
 #read help
-with open('help.txt', 'r', encoding = 'utf-8') as file:
+with open('config/help.txt', 'r', encoding = 'utf-8') as file:
     help_message = file.read()
 
 #read token
-with open('token.txt', 'r', encoding = 'utf-8') as file:
+with open('config/token/token.txt', 'r', encoding = 'utf-8') as file:
     token = file.read()
+
+print(token)
 
 modes = {'hide' : True,     #отвечает только в black_forest
          'defense' : False, #посылает всех, кроме меня
