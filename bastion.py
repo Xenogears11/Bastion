@@ -109,7 +109,6 @@ async def on_message(message):
         return
 
 #Bastion
-    #elif message.content.startswith('Bastion!'):
     elif message.content == '<@321783873853980672>':
         msg = '{0.author.mention}, '.format(message)
         msg += random.choice(responses)
