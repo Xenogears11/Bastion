@@ -40,8 +40,8 @@ print(token)
 modes = {'hide' : True,     #отвечает только в black_forest
          'defense' : False, #посылает всех, кроме меня
          'console_log' : True,      #лог в консоль
-         'greet': True,     #приветствует всех прибывших
-         'users_log' : False,#лог пользователей в канале log
+         'greet': False,     #приветствует всех прибывших
+         'users_log' : True,#лог пользователей в канале log
          'spam' : False} #ухади
 
 def console_log(*message, print_time = True):

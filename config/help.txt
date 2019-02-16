@@ -34,8 +34,11 @@ Set Bastion to defense mode (he will reply only to his owner).
 **greet**
 Bastion will greet everyone, who log in.
 
-**log**
+**users_log**
 Log of users log in/out.
+
+**console_log**
+Log into console. (You don't care about this, really.)
 
 **clear_log**
 Clears 'log' channel.
