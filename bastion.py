@@ -323,7 +323,9 @@ async def wrong_game(before, after):
         return
 
     if after.game.name == 'League of Legends' or after.game.name == 'DOTA 2':
-        await bot.send_message(bot.get_channel('320955467700502528'), '{0.mention}, '.format(after) + 'сейчас бы в 2к17 в жопу подолбиться :\\')
+        year = str(datetime.now().year).replace('0', 'к', 1)
+        await bot.send_message(bot.get_channel('320955467700502528'), '{0.mention}, '.format(after)
+                               + 'сейчас бы в {0} в жопу подолбиться :\\'.format(year))
         if modes['console_log']:
             console_log(after.name, 'Lel\'d')
 
